@@ -1,0 +1,5 @@
+<div class="game-table">
+    <div *ngFor="let card of memoryCards"> 
+        <img src="assets/cardbackground.jpg" width="100" height="100" id="{{ card.id }}" [attr.data-pair-id]="card.pairIdent" (click)="revealCard()"> <!-- data attribute syntax in Angular-->
+    </div>
+</div>
