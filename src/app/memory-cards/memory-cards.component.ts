@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MemoryCard } from '../memory-card';
+import { MemoryCardsService } from '../memory-cards.service';
 
 @Component({
   selector: 'memory-cards',
   templateUrl: './memory-cards.component.html',
-  styleUrls: ['./memory-cards.component.css']
+  styleUrls: ['./memory-cards.component.css'],
+  providers: [ MemoryCardsService ]
 })
+
 export class MemoryCardsComponent implements OnInit {
 
-  memoryCards: MemoryCard[] = [
+  /*memoryCards: MemoryCard[] = [
     {
       name: "bird",
       imagePathInfo: "bird.jpg",
@@ -45,16 +48,23 @@ export class MemoryCardsComponent implements OnInit {
       id: 5,
       pairIdent: 1
     }
-  ]
+  ]*/
+
+
 
   cardsToCompare: HTMLImageElement[] = [] // using type of line 59 here
 
   gameEndCount = 0
 
-  constructor() { }
+  constructor(
+    memoryCardsService: MemoryCardsService
+  ) { }
 
   ngOnInit(): void {
+
   }
+
+  memoryCards = memoryCardsService.getMemoryCards()
 
   checkForMatch = () => {
     if (this.cardsToCompare[0].getAttribute('data-pair-id') === this.cardsToCompare[1].getAttribute('data-pair-id')) {  // not sure why getAttribute method is required here
@@ -84,6 +94,7 @@ export class MemoryCardsComponent implements OnInit {
     let selectedCard = event?.target as HTMLImageElement // using "event?" here to make it work - not sure why...
     let selectedCardId = selectedCard.id as any // getting fancy with the type conversion - might be not correct but it's needed for the index in line 63 apparently
   
+
     selectedCard?.setAttribute('src', `assets/${this.memoryCards[selectedCardId].imagePathInfo}`)
 
     this.cardsToCompare.push(selectedCard)
